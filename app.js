@@ -39,3 +39,17 @@ function collision(head, array) {
     }
     return false;
 }
+
+//Function to draw the snake and food objects
+function draw() { 
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(box, 3 * box, 17 * box, 17 * box);
+
+    for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = (i === 0) ? 'green' : 'white';
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+
+        ctx.strokeStyle = 'red';
+        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+    }
+}
