@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div id="gameContainer">
-        <div class="score">Score: <span id="scoreValue">0</span></div>
-        <canvas id="gameCanvas" width="608" height="608"></canvas>
-    </div>
-    <script src="snakeGame.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
+        canvas {
+            box-shadow: black 20px 10px 50px;
+            /* elevate our canvas */
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="game" width="640" height="640"></canvas>
+    <script src="./snakeGame.js"></script>
+    <script src="./app.js"></script>
+</body>
+
+</html>

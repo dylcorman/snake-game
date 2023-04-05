@@ -1,7 +1,7 @@
+const canvas = document.getElementById('game');
+const snakeGame = new SnakeGame(canvas);
+snakeGame.drawGame();
 
-const canvas = document.getElementById('gameCanvas');
-const scoreValue = document.getElementById('scoreValue');
-const game = new SnakeGame(canvas, scoreValue);
 
 
 
