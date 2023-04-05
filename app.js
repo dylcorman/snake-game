@@ -1,4 +1,4 @@
-//Define variables
+/* //Define variables
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 const box = 32;
@@ -54,7 +54,33 @@ function draw() {
     }
 }
 
-//
+//Update game/detect collisions
 let snakeX = snake[0].x;
 let snakeY = snake[0].y;
+
+if (d === 'LEFT') snakeX -= box;
+if (d === 'UP') snakeY -= box;
+if (d === 'RIGHT') snakeX += box;
+if (d === 'DOWN') snakeY += box;
+
+if (snakeX === food.x && snakeY === food.y) {
+    food = {
+        x: Math.floor(Math.random() * 17 + 1) * box,
+        y: Math.floor(Math.random() * 15 + 3) * box
+    };
+} else {
+    snake.pop();
+}
+
+let newHead = {
+    x: snakeX,
+    y: snakeY
+}; */
+
+const canvas = document.getElementById('gameCanvas');
+const snakeGame = new SnakeGame(canvas);
+let game = setInterval(() => snakeGame.draw(), 100);
+
+
+
 
