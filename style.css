@@ -1,13 +1,30 @@
 body {
+    background-color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #333;
+    font-family: Arial, sans-serif;
 }
 
-canvas {
-    border: 1px solid #fff;
+#gameCanvas {
+    display: block;
+    background-color: #111;
+    border: 1px solid #999;
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.75);
 }
 
+#gameContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.score {
+    color: #FFF;
+    font-size: 24px;
+    margin-bottom: 15px;
+}

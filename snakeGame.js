@@ -1,5 +1,5 @@
 class SnakeGame {
-    constructor(canvas) {
+    constructor(canvas, scoreElement) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.box = 32;
@@ -16,6 +16,9 @@ class SnakeGame {
 
         this.d = null;
         document.addEventListener('keydown', (event) => this.direction(event));
+
+        this.score = 0;
+        this.scoreElement = scoreElement;
     }
 
     direction(event) {
@@ -50,6 +53,40 @@ class SnakeGame {
             this.ctx.strokeStyle = 'red';
             this.ctx.strokeRect(this.snake[i].x, this.snake[i].y, this.box, this.box);
         }
+
+        this.ctx.fillStyle = 'red';
+        this.ctx.fillRect(this.food.x, this.food.y, this.box, this.box);
+
+        let snakeX = this.snake[0].x;
+        let snakeY = this.snake[0].y;
+
+        if (this.d === 'LEFT') snakeX -= this.box;
+        if (this.d === 'UP') snakeY -= this.box;
+        if (this.d === 'RIGHT') snakeX += this.box;
+        if (this.d === 'DOWN') snakeY += this.box;
+
+        if (snakeX === this.food.x && snakeY === this.food.y) {
+            this.food = {
+                x: Math.floor(Math.random() * 17 + 1) * this.box,
+                y: Math.floor(Math.random() * 15 + 3) * this.box
+            };
+            this.score++;
+            this.scoreElement.textContent = this.score;
+        } else {
+            this.snake.pop();
+        }
+
+        let newHead = {
+            x: snakeX,
+            y: snakeY
+        };
+
+        if (snakeX < this.box || snakeX > 17 * this.box || snakeY < 3 * this.box || snakeY > 17 * this.box || this.collision(newHead, this.snake)) {
+            clearInterval(this.game);
+        }
+
+        this.snake.unshift(newHead);
     }
 }
+
 

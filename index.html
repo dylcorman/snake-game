@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <script src="./app.js"></script>
+    <div id="gameContainer">
+        <div class="score">Score: <span id="scoreValue">0</span></div>
+        <canvas id="gameCanvas" width="608" height="608"></canvas>
+    </div>
+    <script src="snakeGame.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
+
