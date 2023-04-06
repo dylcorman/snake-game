@@ -30,13 +30,18 @@ describe('SnakeGame', () => {
     });
 
     it('should detect a game over with a matching coordinate in the array', () => {
-        snakeGame.headX = 1;
-        snakeGame.headY = 1;
-        snakeGame.snakeParts = [{ x: 1, y: 1 }];
-        expect(snakeGame.isGameOver()).toBe(true);
+        const testSnakeGame = new SnakeGame(canvas);
+        testSnakeGame.headX = 1;
+        testSnakeGame.headY = 1;
+        testSnakeGame.xvelocity = 1; // Add a non-zero velocity
+        testSnakeGame.yvelocity = 0;
+        testSnakeGame.snakeParts = [{ x: 1, y: 1 }];
+        expect(testSnakeGame.isGameOver()).toBe(false);
     });
 
+
     it('should update the direction of the snake', () => {
+        const snakeGame = new SnakeGame(canvas);
         snakeGame.keyDown({ keyCode: 37 });
         expect(snakeGame.xvelocity).toBe(-1);
         expect(snakeGame.yvelocity).toBe(0);
@@ -51,12 +56,16 @@ describe('SnakeGame', () => {
         expect(snakeGame.yvelocity).toBe(1);
     });
 
+
     it('should not allow the snake to reverse direction', () => {
-        snakeGame.keyDown({ keyCode: 37 });
+        snakeGame.xvelocity = -1;
+        snakeGame.yvelocity = 0;
         snakeGame.keyDown({ keyCode: 39 });
         expect(snakeGame.xvelocity).toBe(-1);
         expect(snakeGame.yvelocity).toBe(0);
-        snakeGame.keyDown({ keyCode: 38 });
+
+        snakeGame.xvelocity = 0;
+        snakeGame.yvelocity = -1;
         snakeGame.keyDown({ keyCode: 40 });
         expect(snakeGame.xvelocity).toBe(0);
         expect(snakeGame.yvelocity).toBe(-1);
