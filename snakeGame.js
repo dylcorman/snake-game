@@ -20,6 +20,9 @@ class SnakeGame {
     }
 
     keyDown(event) {
+        if (event.keyCode === 80) {
+            this.togglePause();
+        }
         if ((event.keyCode === 38 || event.keyCode === 87) && this.yVelocity !== 1) { // Add "W" key (keyCode 87)
             this.yVelocity = -1;
             this.xVelocity = 0;
@@ -32,6 +35,17 @@ class SnakeGame {
         } else if ((event.keyCode === 39 || event.keyCode === 68) && this.xVelocity !== -1) { // Add "D" key (keyCode 68)
             this.yVelocity = 0;
             this.xVelocity = 1;
+        }
+    }
+
+    togglePause() {
+        this.paused = !this.paused;
+        const pauseMenu = document.getElementById('pause-menu');
+        if (this.paused) {
+            pauseMenu.style.display = 'block';
+        } else {
+            pauseMenu.style.display = 'none';
+            this.drawGame();
         }
     }
 
