@@ -15,12 +15,13 @@ class SnakeGame {
         this.score = 0;
         this.scoreElement = scoreElement;
         this.speed = 10;
+        this.paused = false;
         this.keyDown = this.keyDown.bind(this);
         document.body.addEventListener('keydown', (event) => this.keyDown(event));
     }
 
     keyDown(event) {
-        if (event.keyCode === 80) {
+        if (event.keyCode === 27) {
             this.togglePause();
         }
         if ((event.keyCode === 38 || event.keyCode === 87) && this.yVelocity !== 1) { // Add "W" key (keyCode 87)
@@ -51,6 +52,8 @@ class SnakeGame {
 
 
     drawGame() {
+        if(this.paused) return;
+
         this.changeSnakePosition();
         let isGameOver = this.isGameOver();
         if (isGameOver) {
