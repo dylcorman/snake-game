@@ -16,6 +16,7 @@ class SnakeGame {
         this.scoreElement = scoreElement;
         this.speed = 10;
         this.paused = false;
+        this.highScore = this.loadHighScore();
         this.keyDown = this.keyDown.bind(this);
         document.body.addEventListener('keydown', (event) => this.keyDown(event));
     }
@@ -64,6 +65,7 @@ class SnakeGame {
         this.drawApple();
         this.checkCollision();
         this.drawScore();
+        this.drawHighScore();
         setTimeout(() => this.drawGame(), 1000 / this.speed);
     }
 
@@ -98,7 +100,22 @@ class SnakeGame {
     drawScore() {
         this.ctx.fillStyle = "white";
         this.ctx.font = "10px Verdana";
-        this.ctx.fillText("Score: " + this.score, this.canvas.width - 50, 10);
+        this.ctx.fillText("Score: " + this.score, (this.canvas.width /2) - 30, 10);
+    }
+
+    drawHighScore() {
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "10px Verdana";
+        this.ctx.fillText('High Score: ' + this.highScore, this.canvas.width - 50, 10);
+    }
+
+    loadHighScore() {
+        const highScore = localStorage.getItem('snakeGameHighScore');
+        return highScore ? parseInt(highScore) : 0;
+    }
+
+    saveHighScore(score) {
+        localStorage.setItem('snakeGameHighScore', score);
     }
 
     clearScreen() {
@@ -138,6 +155,11 @@ class SnakeGame {
             this.appleY = Math.floor(Math.random() * this.tileCount);
             this.tailLength++;
             this.score++;
+            //check to if current score is higer than high score, then save if neccessary
+            if (this.score > this.highScore) {
+                this.highScore = this.score;
+                this.saveHighScore(this.highScore);
+            }
         }
     }
 }
