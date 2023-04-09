@@ -1,13 +1,14 @@
 body {
-    background-color: #333;
+    font-family: 'Arial', sans-serif;
+    background-color: #282c34;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
-    width: 100vw;
     margin: 0;
-    font-family: Arial, sans-serif;
-}ß
+    color: white;
+}
 
 #gameCanvas {
     display: block;
@@ -28,8 +29,33 @@ body {
     width: 100%;
 }
 
-.score {
-    color: #FFF;
-    font-size: 24px;
-    margin-bottom: 15px;
+#score {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+button {
+    background-color: #61dafb;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#pause-menu {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 2rem;
+    border-radius: 5px;
+    text-align: center;
 }

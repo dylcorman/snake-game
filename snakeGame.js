@@ -53,7 +53,7 @@ class SnakeGame {
 
 
     drawGame() {
-        if(this.paused) return;
+        if (this.paused) return;
 
         this.changeSnakePosition();
         let isGameOver = this.isGameOver();
@@ -76,9 +76,10 @@ class SnakeGame {
             return false;
         }
 
-        if (this.headX < 0 || this.headX === this.tileCount || this.headY < 0 || this.headY === this.tileCount) {
+        if (this.headX < 0 || this.headX * this.tileCount >= this.canvas.width || this.headY < 0 || this.headY * this.tileCount >= this.canvas.height) {
             gameOver = true;
         }
+
 
         for (let i = 0; i < this.snakeParts.length; i++) {
             let part = this.snakeParts[i];
@@ -100,7 +101,7 @@ class SnakeGame {
     drawScore() {
         this.ctx.fillStyle = "white";
         this.ctx.font = "10px Verdana";
-        this.ctx.fillText("Score: " + this.score, (this.canvas.width /2) - 30, 10);
+        this.ctx.fillText("Score: " + this.score, (this.canvas.width / 2) - 30, 10);
     }
 
     drawHighScore() {
