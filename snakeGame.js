@@ -2,8 +2,14 @@ class SnakeGame {
     constructor(canvas, scoreElement) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
+        this.scoreElement = scoreElement;
         this.tileCount = 20;
-        this.tileSize = canvas.width / this.tileCount - 2;
+        this.updateCanvasSize();
+        this.initializeGame();
+        window.addEventListener('resize', () => this.handleResize());
+    }
+
+    initializeGame() {
         this.headX = 10;
         this.headY = 10;
         this.snakeParts = [];
@@ -13,12 +19,23 @@ class SnakeGame {
         this.appleX = 5;
         this.appleY = 5;
         this.score = 0;
-        this.scoreElement = scoreElement;
         this.speed = 10;
         this.paused = false;
         this.highScore = this.loadHighScore();
         this.keyDown = this.keyDown.bind(this);
         document.body.addEventListener('keydown', (event) => this.keyDown(event));
+    }
+
+    updateCanvasSize() {
+        const minDimension = Math.min(window.innerWidth, window.innerHeight) * 0.8;
+        this.canvas.width = minDimension;
+        this.canvas.height = minDimension;
+        this.tileSize = minDimension / this.tileCount - 2;
+    }
+
+    handleResize() {
+        this.updateCanvasSize();
+        this.drawGame();
     }
 
     keyDown(event) {
