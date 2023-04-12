@@ -18,8 +18,11 @@
         }
 
         canvas {
-            border: 1px solid #fff;
-            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+            box-shadow: black 20px 10px 50px;
+            display: block;
+            border: 2px solid #ffffff;
+            background-color: #000000;
+            margin-bottom: 1rem;
         }
 
         #score {
@@ -60,7 +63,7 @@
 </head>
 
 <body>
-    <canvas id="game"></canvas>
+    <canvas id="game" width="640" height="640"></canvas>
     <script src="./snakeGame.js"></script>
     <script src="./app.js"></script>
     <div id="pause-menu"

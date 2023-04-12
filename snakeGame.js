@@ -1,5 +1,6 @@
 class SnakeGame {
     constructor(canvas, scoreElement) {
+        // Initialize game properties
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.scoreElement = scoreElement;
@@ -9,23 +10,31 @@ class SnakeGame {
         window.addEventListener('resize', () => this.handleResize());
     }
 
+    // Set initial game values
     initializeGame() {
+        // Snake poistion/parts
         this.headX = 10;
         this.headY = 10;
         this.snakeParts = [];
         this.tailLength = 2;
+        // Velocity and direction
         this.xVelocity = 0;
         this.yVelocity = 0;
+        // Posistion of apple
         this.appleX = 5;
         this.appleY = 5;
+        // Score and speed
         this.score = 0;
         this.speed = 10;
+        // Pause and high score 
         this.paused = false;
         this.highScore = this.loadHighScore();
+        // Bind keyDown method and add event listener
         this.keyDown = this.keyDown.bind(this);
         document.body.addEventListener('keydown', (event) => this.keyDown(event));
     }
 
+    // Update canvas size based on window size
     updateCanvasSize() {
         const minDimension = Math.min(window.innerWidth, window.innerHeight) * 0.8;
         this.canvas.width = minDimension;
@@ -33,11 +42,13 @@ class SnakeGame {
         this.tileSize = minDimension / this.tileCount - 2;
     }
 
+    // Hanlde window resize
     handleResize() {
         this.updateCanvasSize();
         this.drawGame();
     }
 
+    // Handle keyboard input for snake movement/game pause
     keyDown(event) {
         if (event.keyCode === 27) {
             this.togglePause();
@@ -57,6 +68,7 @@ class SnakeGame {
         }
     }
 
+    // Toggle pause state/display pause menu
     togglePause() {
         this.paused = !this.paused;
         const pauseMenu = document.getElementById('pause-menu');
@@ -69,9 +81,11 @@ class SnakeGame {
     }
 
 
+    // Main game loop
     drawGame() {
         if (this.paused) return;
 
+        // Update snake position and check for game over
         this.changeSnakePosition();
         let isGameOver = this.isGameOver();
         if (isGameOver) {
@@ -86,6 +100,7 @@ class SnakeGame {
         setTimeout(() => this.drawGame(), 1000 / this.speed);
     }
 
+    // Check to see if the game is over due to snake collision/border collision
     isGameOver() {
         let gameOver = false;
 
@@ -115,32 +130,38 @@ class SnakeGame {
         return gameOver;
     }
 
+    // Display current score on canvas
     drawScore() {
         this.ctx.fillStyle = "white";
         this.ctx.font = "10px Verdana";
         this.ctx.fillText("Score: " + this.score, (this.canvas.width / 2) - 30, 10);
     }
 
+    // Display high score on canvas
     drawHighScore() {
         this.ctx.fillStyle = "white";
         this.ctx.font = "10px Verdana";
-        this.ctx.fillText('High Score: ' + this.highScore, this.canvas.width - 50, 10);
+        this.ctx.fillText('High Score: ' + this.highScore, this.canvas.width - 80, 10);
     }
 
+    // Load high score from local storage
     loadHighScore() {
         const highScore = localStorage.getItem('snakeGameHighScore');
         return highScore ? parseInt(highScore) : 0;
     }
 
+    // Save high score to local storage
     saveHighScore(score) {
         localStorage.setItem('snakeGameHighScore', score);
     }
 
+    // Clear canvas for redrawing game elements
     clearScreen() {
         this.ctx.fillStyle = 'black';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    // Draw snake on canvas
     drawSnake() {
         this.ctx.fillStyle = "green";
         for (let i = 0; i < this.snakeParts.length; i++) {
@@ -157,16 +178,19 @@ class SnakeGame {
         this.ctx.fillRect(this.headX * this.tileCount, this.headY * this.tileCount, this.tileSize, this.tileSize);
     }
 
+    // Update snake posistion
     changeSnakePosition() {
         this.headX += this.xVelocity;
         this.headY += this.yVelocity;
     }
 
+    // Draw apple on canvas
     drawApple() {
         this.ctx.fillStyle = "red";
         this.ctx.fillRect(this.appleX * this.tileCount, this.appleY * this.tileCount, this.tileSize, this.tileSize);
     }
 
+    // Check for collision
     checkCollision() {
         if (this.appleX === this.headX && this.appleY === this.headY) {
             this.appleX = Math.floor(Math.random() * this.tileCount);
