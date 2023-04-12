@@ -1,6 +1,6 @@
 SNAKE GAME
 
-This is a simple implementation of the classic snake game using everything we've learned in the class so far. The goal of the game is pretty simple, control a snake to eat food, which makes the snake grow larger and larger. The game will end either when the snake collides with itself due to it's size or hit the walls of the game board.
+This is a simple implementation of the classic snake game using everything we've learned in the class so far. The goal of the game is pretty simple, control a snake to eat food, which makes the snake grow larger and larger. The game will end either when the snake collides with itself due to it's size, hit the walls of the game board, or run out of time.
 
 
 ![SNAKE GAME](https://i.gyazo.com/ca8d86a9a78c9620da01645352badb0a.png)
