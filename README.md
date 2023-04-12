@@ -23,7 +23,7 @@ HOW TO PLAY
 4. Eat food to increase the snake's length and score points
 5. Avoid hitting walls or the snake's body
 6. Keep the timer from running out by collecting +'s.
-7. Get the highest score possible without colliding with anything!
+7. Get the highest score possible without colliding with anything or running out of time!
 
 Future Implementations (if given enough time)
 
