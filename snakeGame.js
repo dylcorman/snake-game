@@ -1,9 +1,10 @@
 class SnakeGame {
-    constructor(canvas, scoreElement) {
+    constructor(canvas, scoreElement, timerElement) {
         // Initialize game properties
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.scoreElement = scoreElement;
+        this.timerElement = timerElement;
         this.tileCount = 20;
         this.updateCanvasSize();
         this.initializeGame();
@@ -29,9 +30,84 @@ class SnakeGame {
         // Pause and high score 
         this.paused = false;
         this.highScore = this.loadHighScore();
+        // Initialize timer
+        this.initializeTimer();
+        this.timeRemaining = 60;
+        // Initialize time Items
+        this.initializeTimeItems();
         // Bind keyDown method and add event listener
         this.keyDown = this.keyDown.bind(this);
         document.body.addEventListener('keydown', (event) => this.keyDown(event));
+    }
+
+    // Add the initializeTimer method
+    initializeTimer() {
+        this.timerInterval = setInterval(() => {
+            this.timeRemaining--;
+            if (this.timeRemaining <= 0) {
+                clearInterval(this.timerInterval);
+            }
+        }, 1000);
+    }
+
+    // Add the updateTimerDisplay method
+    drawTimeRemaining() {
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "10px Verdana";
+        this.ctx.fillText("Time Remaining: " + this.timeRemaining, 10, 10);
+    }
+
+    // Start timer method
+    startTimer() {
+        if (!this.timerInterval) {
+            this.timerInterval = setInterval(() => {
+                this.timeLeft--;
+
+                if (this.timeLeft < 0) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                    this.isGameOver();
+                } else {
+                    this.updateTimerDisplay();
+                }
+            }, 1000);
+        }
+    }
+
+    // Add methods for initializing time items
+    initializeTimeItems() {
+        this.placeTimePlusItem();
+        this.placeTimeMinusItem();
+    }
+
+    placeTimePlusItem() {
+        this.timePlusX = Math.floor(Math.random() * this.tileCount);
+        this.timePlusY = Math.floor(Math.random() * this.tileCount);
+    }
+
+    placeTimeMinusItem() {
+        this.timeMinusX = Math.floor(Math.random() * this.tileCount);
+        this.timeMinusY = Math.floor(Math.random() * this.tileCount);
+    }
+
+    drawTimeItems() {
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "bold " + this.tileSize + "px Arial";
+        this.ctx.fillText("+", this.timePlusX * this.tileCount, (this.timePlusY + 1) * this.tileCount);
+        this.ctx.fillText("-", this.timeMinusX * this.tileCount, (this.timeMinusY + 1) * this.tileCount);
+    }
+
+    checkTimeItemCollision() {
+        if (this.timePlusX === this.headX && this.timePlusY === this.headY) {
+            this.placeTimePlusItem();
+            this.timeRemaining += 10; // Add 10 seconds to the timer
+        }
+
+        if (this.timeMinusX === this.headX && this.timeMinusY === this.headY) {
+            this.placeTimeMinusItem();
+            this.timeRemaining -= 10; // Subtract 10 seconds from the timer
+            if (this.timeRemaining < 0) this.timeRemaining = 0;
+        }
     }
 
     // Update canvas size based on window size
@@ -74,8 +150,11 @@ class SnakeGame {
         const pauseMenu = document.getElementById('pause-menu');
         if (this.paused) {
             pauseMenu.style.display = 'block';
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
         } else {
             pauseMenu.style.display = 'none';
+            this.startTimer();
             this.drawGame();
         }
     }
@@ -95,8 +174,11 @@ class SnakeGame {
         this.drawSnake();
         this.drawApple();
         this.checkCollision();
+        this.checkTimeItemCollision();
         this.drawScore();
         this.drawHighScore();
+        this.drawTimeItems();
+        this.drawTimeRemaining();
         setTimeout(() => this.drawGame(), 1000 / this.speed);
     }
 
@@ -121,10 +203,19 @@ class SnakeGame {
             }
         }
 
+        // Check if timer has reached zero
+        if (this.timeRemaining <= 0) {
+            gameOver = true;
+        }
+
         if (gameOver) {
             this.ctx.fillStyle = "white";
             this.ctx.font = "50px Verdana";
             this.ctx.fillText("Game Over!", this.canvas.width / 6.5, this.canvas.height / 2);
+
+            // Clear timer interval
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
         }
 
         return gameOver;
@@ -197,6 +288,7 @@ class SnakeGame {
             this.appleY = Math.floor(Math.random() * this.tileCount);
             this.tailLength++;
             this.score++;
+            this.checkTimeItemCollision();
             //check to if current score is higer than high score, then save if neccessary
             if (this.score > this.highScore) {
                 this.highScore = this.score;

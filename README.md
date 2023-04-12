@@ -13,6 +13,7 @@ FEATURES
 3. Random Food Generation: Food is generated at random positions across the game board after the snake eats it.
 4. Score: The game keeps track of palyer's score, which increases as the snake eats more food.
 5. Responsive Canvas: The game board will automatically scale with the browser window size 
+6. Timer: A 60 second timer will begin ticking down once the game has begun, once that timer reaches 0, game over! You can collect +'s to increase the timer by 10 seconds, but be weary of the -'s that will decrease the time by 10 seconds.
 
 HOW TO PLAY
 
@@ -21,7 +22,8 @@ HOW TO PLAY
 3. Use arrow keys or wasd on the keyboard to control the snake's direction
 4. Eat food to increase the snake's length and score points
 5. Avoid hitting walls or the snake's body
-6. Get the highest score possible without colliding with anything!
+6. Keep the timer from running out by collecting +'s.
+7. Get the highest score possible without colliding with anything!
 
 Future Implementations (if given enough time)
 
@@ -30,4 +32,4 @@ Future Implementations (if given enough time)
 3. Add customizable settings, like snake speed and board size
 4. Add higher difficulty modes with various obstacles to make the game harder.
 5. Add sound effects
-6. Have a pause/resume game funtionality
+6. Have a pause/resume game funtionality 
