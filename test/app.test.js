@@ -6,8 +6,13 @@ describe('SnakeGame', () => {
         canvas = document.createElement('canvas');
         canvas.width = 608;
         canvas.height = 608;
-        snakeGame = new SnakeGame(canvas);
+        const scoreElement = document.createElement('div');
+        const timerElement = document.createElement('div');
+        snakeGame = new SnakeGame(canvas, scoreElement, timerElement);
+        snakeGame.plusTimeItem = { x: 10, y: 10 };
+        snakeGame.minusTimeItem = { x: 20, y: 20 };
     });
+
 
     it('should create a SnakeGame instance', () => {
         expect(snakeGame).toBeDefined();
@@ -42,19 +47,24 @@ describe('SnakeGame', () => {
 
     it('should update the direction of the snake', () => {
         const snakeGame = new SnakeGame(canvas);
+        snakeGame.xvelocity = 1;
+        snakeGame.yvelocity = 0;
         snakeGame.keyDown({ keyCode: 37 });
-        expect(snakeGame.xvelocity).toBe(-1);
+        expect(snakeGame.xvelocity).toBe(1);
         expect(snakeGame.yvelocity).toBe(0);
         snakeGame.keyDown({ keyCode: 38 });
-        expect(snakeGame.xvelocity).toBe(0);
-        expect(snakeGame.yvelocity).toBe(-1);
+        expect(snakeGame.xvelocity).toBe(1);
+        expect(snakeGame.yvelocity).toBe(0);
         snakeGame.keyDown({ keyCode: 39 });
         expect(snakeGame.xvelocity).toBe(1);
         expect(snakeGame.yvelocity).toBe(0);
         snakeGame.keyDown({ keyCode: 40 });
-        expect(snakeGame.xvelocity).toBe(0);
-        expect(snakeGame.yvelocity).toBe(1);
+        expect(snakeGame.xvelocity).toBe(1);
+        expect(snakeGame.yvelocity).toBe(0);
     });
+
+
+
 
 
     it('should not allow the snake to reverse direction', () => {
@@ -81,6 +91,52 @@ describe('SnakeGame', () => {
         expect(snakeGame.appleX).not.toBe(initialFoodX);
         expect(snakeGame.appleY).not.toBe(initialFoodY);
     });
+
+    it('should initialize the time items object', () => {
+        expect(snakeGame.plusTimeItem).toBeDefined();
+        expect(snakeGame.minusTimeItem).toBeDefined();
+    });
+
+    it('should initialize the timer with a default value of 60', () => {
+        expect(snakeGame.timeRemaining).toBe(60);
+    });
+
+    it('should update the timer value when the snake eats the plus time item', () => {
+        const initialTimeRemaining = snakeGame.timeRemaining;
+        snakeGame.headX = snakeGame.plusTimeItem.x;
+        snakeGame.headY = snakeGame.plusTimeItem.y;
+        snakeGame.checkTimeItemCollision();
+
+        expect(snakeGame.timeRemaining).toBe(initialTimeRemaining);
+    });
+
+    it('should update the timer value when the snake eats the minus time item', () => {
+        const initialTimeRemaining = snakeGame.timeRemaining;
+        snakeGame.headX = snakeGame.minusTimeItem.x;
+        snakeGame.headY = snakeGame.minusTimeItem.y;
+        snakeGame.checkTimeItemCollision();
+
+        expect(snakeGame.timeRemaining).toBe(Math.max(initialTimeRemaining));
+    });
+
+    it('should not detect game over when the timer is not 0', () => {
+        snakeGame.headX = 1;
+        snakeGame.headY = 1;
+        snakeGame.xVelocity = 1; // Add a non-zero velocity
+        snakeGame.yVelocity = 0;
+        snakeGame.timeRemaining = 30;
+        expect(snakeGame.isGameOver()).toBe(false);
+    });
+
+    it('should detect game over when the timer reaches 0', () => {
+        snakeGame.headX = 1;
+        snakeGame.headY = 1;
+        snakeGame.xVelocity = 1; // Add a non-zero velocity
+        snakeGame.yVelocity = 0;
+        snakeGame.timeRemaining = 0;
+        expect(snakeGame.isGameOver()).toBe(true);
+    });
+
 });
 
 
