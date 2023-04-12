@@ -6,6 +6,7 @@ class SnakeGame {
         this.scoreElement = scoreElement;
         this.timerElement = timerElement;
         this.tileCount = 20;
+        this.directionChanged = false;
         this.updateCanvasSize();
         this.initializeGame();
         window.addEventListener('resize', () => this.handleResize());
@@ -83,11 +84,25 @@ class SnakeGame {
     placeTimePlusItem() {
         this.timePlusX = Math.floor(Math.random() * this.tileCount);
         this.timePlusY = Math.floor(Math.random() * this.tileCount);
+        // Ensure the time plus item is within the game board
+        if (this.timePlusX * this.tileSize >= this.canvas.width) {
+            this.timePlusX = this.tileCount - 1;
+        }
+        if (this.timePlusY * this.tileSize >= this.canvas.height) {
+            this.timePlusY = this.tileCount - 1;
+        }
     }
 
     placeTimeMinusItem() {
         this.timeMinusX = Math.floor(Math.random() * this.tileCount);
         this.timeMinusY = Math.floor(Math.random() * this.tileCount);
+        // Ensure the time minus item is within the game board
+        if (this.timeMinusX * this.tileSize >= this.canvas.width) {
+            this.timeMinusX = this.tileCount - 1;
+        }
+        if (this.timeMinusY * this.tileSize >= this.canvas.height) {
+            this.timeMinusY = this.tileCount - 1;
+        }
     }
 
     drawTimeItems() {
@@ -132,15 +147,19 @@ class SnakeGame {
         if ((event.keyCode === 38 || event.keyCode === 87) && this.yVelocity !== 1) { // Add "W" key (keyCode 87)
             this.yVelocity = -1;
             this.xVelocity = 0;
+            this.directionChanged = true;
         } else if ((event.keyCode === 40 || event.keyCode === 83) && this.yVelocity !== -1) { // Add "S" key (keyCode 83)
             this.yVelocity = 1;
             this.xVelocity = 0;
+            this.directionChanged = true;
         } else if ((event.keyCode === 37 || event.keyCode === 65) && this.xVelocity !== 1) { // Add "A" key (keyCode 65)
             this.yVelocity = 0;
             this.xVelocity = -1;
+            this.directionChanged = true;
         } else if ((event.keyCode === 39 || event.keyCode === 68) && this.xVelocity !== -1) { // Add "D" key (keyCode 68)
             this.yVelocity = 0;
             this.xVelocity = 1;
+            this.directionChanged = true;
         }
     }
 
@@ -166,6 +185,7 @@ class SnakeGame {
 
         // Update snake position and check for game over
         this.changeSnakePosition();
+        this.directionChanged = false;
         let isGameOver = this.isGameOver();
         if (isGameOver) {
             return;
