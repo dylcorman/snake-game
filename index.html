@@ -59,6 +59,16 @@
         button:hover {
             background-color: #4cafda;
         }
+
+        #gameTitle {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        #start-menu {
+            display: none;
+        }
     </style>
 </head>
 
@@ -70,8 +80,13 @@
         style="display:none; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background-color:black; color:white; padding:20px; border-radius:10px;">
         <h2>Game Paused</h2>
         <p>Press "ESC" to resume</p>
+        <button id="replay">Replay</button>
     </div>
-
+    <div id="start-menu"
+        style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background-color:black; color:white; padding:20px; border-radius:10px;">
+        <h2>Welcome to Snake!</h2>
+        <button id="start-game">Start Game</button>
+    </div>
 </body>
 
 </html>

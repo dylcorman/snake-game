@@ -3,7 +3,7 @@ SNAKE GAME
 This is a simple implementation of the classic snake game using everything we've learned in the class so far. The goal of the game is pretty simple, control a snake to eat food, which makes the snake grow larger and larger. The game will end either when the snake collides with itself due to it's size or hit the walls of the game board.
 
 
-*Insert SS of final product of game here*
+![SNAKE GAME](https://i.gyazo.com/ca8d86a9a78c9620da01645352badb0a.png)
 
 
 FEATURES
@@ -27,9 +27,9 @@ HOW TO PLAY
 
 Future Implementations (if given enough time)
 
-1. Add a start menu with a play button/instructions above
-2. Implement a high-score system (i guess using local storage)
-3. Add customizable settings, like snake speed and board size
-4. Add higher difficulty modes with various obstacles to make the game harder.
-5. Add sound effects
-6. Have a pause/resume game funtionality 
+1. Add a start menu with a play button/instructions above *Incomplete*
+2. Implement a high-score system (i guess using local storage) *Complete*
+3. Add customizable settings, like snake speed and board size *Partially Complete*
+4. Add higher difficulty modes with various obstacles to make the game harder. *Incomplete*
+5. Add sound effects *Incomplete*
+6. Have a pause/resume game funtionality *Partially Complete*
