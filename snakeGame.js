@@ -7,6 +7,7 @@ class SnakeGame {
         this.timerElement = timerElement;
         this.tileCount = 20;
         this.directionChanged = false;
+        this.gameStarted = false;
         this.updateCanvasSize();
         this.initializeGame();
         window.addEventListener('resize', () => this.handleResize());
@@ -14,7 +15,7 @@ class SnakeGame {
 
     // Set initial game values
     initializeGame() {
-        // Snake poistion/parts
+        // Snake position/parts
         this.headX = 10;
         this.headY = 10;
         this.snakeParts = [];
@@ -22,7 +23,7 @@ class SnakeGame {
         // Velocity and direction
         this.xVelocity = 0;
         this.yVelocity = 0;
-        // Posistion of apple
+        // Position of apple
         this.appleX = 5;
         this.appleY = 5;
         // Score and speed
@@ -32,8 +33,8 @@ class SnakeGame {
         this.paused = false;
         this.highScore = this.loadHighScore();
         // Initialize timer
-        this.initializeTimer();
         this.timeRemaining = 60;
+        this.timerStarted = false; // Initialize timerStarted
         // Initialize time Items
         this.initializeTimeItems();
         // Bind keyDown method and add event listener
@@ -41,39 +42,40 @@ class SnakeGame {
         document.body.addEventListener('keydown', (event) => this.keyDown(event));
     }
 
-    // Add the initializeTimer method
-    initializeTimer() {
-        this.timerInterval = setInterval(() => {
-            this.timeRemaining--;
-            if (this.timeRemaining <= 0) {
-                clearInterval(this.timerInterval);
-            }
-        }, 1000);
+    // Method to reset timer 
+    resetTimer() {
+        this.timeRemaining = 60;
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
     }
 
     // Add the updateTimerDisplay method
     drawTimeRemaining() {
         this.ctx.fillStyle = "white";
         this.ctx.font = "10px Verdana";
-        this.ctx.fillText("Time Remaining: " + this.timeRemaining, 10, 10);
+        this.ctx.fillText("Time Remaining: " + this.timeRemaining, this.canvas.width / 20, this.canvas.height / 40);
     }
+
 
     // Start timer method
     startTimer() {
         if (!this.timerInterval) {
             this.timerInterval = setInterval(() => {
-                this.timeLeft--;
+                this.timeRemaining--;
 
-                if (this.timeLeft < 0) {
+                if (this.timeRemaining < 0) {
                     clearInterval(this.timerInterval);
                     this.timerInterval = null;
                     this.isGameOver();
                 } else {
-                    this.updateTimerDisplay();
+                    this.drawTimeRemaining();
                 }
             }, 1000);
         }
     }
+
 
     // Add methods for initializing time items
     initializeTimeItems() {
@@ -144,6 +146,12 @@ class SnakeGame {
         if (event.keyCode === 27) {
             this.togglePause();
         }
+
+        if (!this.timerStarted && (event.keyCode === 38 || event.keyCode === 87 || event.keyCode === 40 || event.keyCode === 83 || event.keyCode === 37 || event.keyCode === 65 || event.keyCode === 39 || event.keyCode === 68)) {
+            this.startTimer();
+            this.timerStarted = true;
+        }
+
         if ((event.keyCode === 38 || event.keyCode === 87) && this.yVelocity !== 1) { // Add "W" key (keyCode 87)
             this.yVelocity = -1;
             this.xVelocity = 0;
@@ -198,9 +206,10 @@ class SnakeGame {
         this.drawScore();
         this.drawHighScore();
         this.drawTimeItems();
-        this.drawTimeRemaining();
+        this.drawTimeRemaining(); // Include this line to draw the timer
         setTimeout(() => this.drawGame(), 1000 / this.speed);
     }
+
 
     // Check to see if the game is over due to snake collision/border collision
     isGameOver() {
