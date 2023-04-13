@@ -152,24 +152,29 @@ class SnakeGame {
             this.timerStarted = true;
         }
 
-        if ((event.keyCode === 38 || event.keyCode === 87) && this.yVelocity !== 1) { // Add "W" key (keyCode 87)
+        if (this.directionChanged) {
+            return;
+        }
+
+        if ((event.keyCode === 38 || event.keyCode === 87) && this.yVelocity !== 1) {
             this.yVelocity = -1;
             this.xVelocity = 0;
             this.directionChanged = true;
-        } else if ((event.keyCode === 40 || event.keyCode === 83) && this.yVelocity !== -1) { // Add "S" key (keyCode 83)
+        } else if ((event.keyCode === 40 || event.keyCode === 83) && this.yVelocity !== -1) {
             this.yVelocity = 1;
             this.xVelocity = 0;
             this.directionChanged = true;
-        } else if ((event.keyCode === 37 || event.keyCode === 65) && this.xVelocity !== 1) { // Add "A" key (keyCode 65)
+        } else if ((event.keyCode === 37 || event.keyCode === 65) && this.xVelocity !== 1) {
             this.yVelocity = 0;
             this.xVelocity = -1;
             this.directionChanged = true;
-        } else if ((event.keyCode === 39 || event.keyCode === 68) && this.xVelocity !== -1) { // Add "D" key (keyCode 68)
+        } else if ((event.keyCode === 39 || event.keyCode === 68) && this.xVelocity !== -1) {
             this.yVelocity = 0;
             this.xVelocity = 1;
             this.directionChanged = true;
         }
     }
+
 
     // Toggle pause state/display pause menu
     togglePause() {
