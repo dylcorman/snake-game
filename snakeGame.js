@@ -192,6 +192,7 @@ class SnakeGame {
     }
 
 
+
     // Main game loop
     drawGame() {
         if (this.paused) return;
@@ -211,7 +212,7 @@ class SnakeGame {
         this.drawScore();
         this.drawHighScore();
         this.drawTimeItems();
-        this.drawTimeRemaining(); // Include this line to draw the timer
+        this.drawTimeRemaining(); 
         setTimeout(() => this.drawGame(), 1000 / this.speed);
     }
 
